@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.apier.no/avert/0.1.0/receipt.schema.json",
+  "title": "AVERT Receipt",
+  "description": "Tamper-evident proof produced by the AVERT Receipt step on a successful Execute. The Apier reference implementation signs receipts with HMAC-SHA256-v1 and persists them to an append-only store; until the live write path ships, `government_response_raw` is mock-generated (see IMPLEMENTATION_STATUS.md).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["receipt_id", "action", "submitted_payload_hash", "government_response_raw", "signature_algorithm", "signature", "audit_log_id", "created_at"],
+  "properties": {
+    "receipt_id": {
+      "type": "string",
+      "description": "Unique identifier for this receipt."
+    },
+    "action": {
+      "type": "string",
+      "description": "The government action this receipt attests to."
+    },
+    "submitted_payload_hash": {
+      "type": "string",
+      "description": "Cryptographic hash of the submitted payload, binding the receipt to exactly what was sent."
+    },
+    "government_response_raw": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The raw response returned by the government system. Mock-generated in the reference implementation until the live write path ships."
+    },
+    "signature_algorithm": {
+      "type": "string",
+      "const": "HMAC-SHA256-v1",
+      "description": "Algorithm used to sign the receipt. Versioned so the signing scheme can evolve without ambiguity."
+    },
+    "signature": {
+      "type": "string",
+      "description": "Signature over the receipt's signed content. Any change to that content invalidates this signature."
+    },
+    "audit_log_id": {
+      "type": "string",
+      "description": "Reference linking this receipt to its entry in the AVERT Trail."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp when the receipt was minted."
+    }
+  }
+}

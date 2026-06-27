@@ -1,0 +1,14 @@
+{
+  "receipt_id": "rcpt_EXAMPLE_0001",
+  "action": "mva_melding",
+  "submitted_payload_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "government_response_raw": {
+    "status": "received",
+    "reference": "MOCK-RECEIPT-0001",
+    "note": "Synthetic mock response — no real submission was made."
+  },
+  "signature_algorithm": "HMAC-SHA256-v1",
+  "signature": "EXAMPLE-SIGNATURE-NOT-REAL",
+  "audit_log_id": "00000000-0000-4000-8000-000000000001",
+  "created_at": "2026-06-27T09:00:00Z"
+}

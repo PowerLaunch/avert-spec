@@ -1,0 +1,14 @@
+{
+  "action": "mva_melding",
+  "entity": {
+    "organisation_number": "999000111"
+  },
+  "period": "2026-T1",
+  "payload": {
+    "total_sales_excluding_vat": 100000,
+    "output_vat": 25000,
+    "input_vat": 5000
+  },
+  "dry_run": true,
+  "idempotency_key": "00000000-0000-4000-8000-000000000000"
+}

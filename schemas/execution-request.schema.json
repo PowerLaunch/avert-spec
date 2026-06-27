@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.apier.no/avert/0.1.0/execution-request.schema.json",
+  "title": "AVERT Execution Request",
+  "description": "A request to perform the AVERT Execute step against a government system. In the Apier reference implementation, write actions are gated and currently run as a design-partner preview through a mock submitter (see IMPLEMENTATION_STATUS.md). Set `dry_run` to true to run the Validate step without performing the government call.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["action", "entity", "period", "payload", "dry_run", "idempotency_key"],
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": ["mva_melding", "a_melding"],
+      "description": "The government action to perform. `mva_melding`: Norwegian VAT return. `a_melding`: Norwegian employer report."
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["organisation_number"],
+      "properties": {
+        "organisation_number": {
+          "type": "string",
+          "description": "Identifier of the entity the action is performed for."
+        }
+      },
+      "description": "The entity on whose behalf the action runs."
+    },
+    "period": {
+      "type": "string",
+      "description": "The reporting period the action covers, such as a VAT term or a calendar month."
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Action-specific submission payload. Intentionally open: the shape of this object is checked by the Validate step, not by this transport schema."
+    },
+    "dry_run": {
+      "type": "boolean",
+      "description": "When true, the implementation runs the Validate step and returns its outcome without performing the government call."
+    },
+    "idempotency_key": {
+      "type": "string",
+      "description": "Caller-supplied key that makes a write action safe to retry: a duplicate key returns the stored result of the first call rather than submitting again."
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.apier.no/avert/0.1.0/trail-entry.schema.json",
+  "title": "AVERT Trail Entry",
+  "description": "One entry in the AVERT Trail: an append-only, hash-chained record of an action. Kept consistent with the Apier reference implementation's live audit-log entry — `id` and `action` are strings and `occurred_at` is an RFC 3339 timestamp. The hash chain makes the trail tamper-evident: each entry commits to the previous entry's hash.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "actor", "action", "resource", "hash", "previous_hash", "occurred_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this trail entry."
+    },
+    "actor": {
+      "type": "string",
+      "description": "Identifier of the party that performed the action."
+    },
+    "action": {
+      "type": "string",
+      "description": "Machine-readable identifier of the action performed."
+    },
+    "resource": {
+      "type": "string",
+      "description": "The resource or entity the action was performed against."
+    },
+    "hash": {
+      "type": "string",
+      "description": "SHA-256 hex digest of the canonical form of this entry, binding its contents."
+    },
+    "previous_hash": {
+      "type": ["string", "null"],
+      "description": "Hash of the previous entry in the chain, or null for the first entry. Links entries into a tamper-evident chain."
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp when the action occurred."
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "decision": "partial",
+  "entity": {
+    "organisation_number": "999000111",
+    "name": "Example Synthetic AS"
+  },
+  "granted_scopes": ["read:brreg"],
+  "missing_scopes": ["act:mva_melding"],
+  "fix_steps": [
+    {
+      "code": "DELEGATION_REQUIRED",
+      "description": "Have the entity grant the agent the act:mva_melding delegation in Altinn, then retry the action."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.apier.no/avert/0.1.0/authorization-decision.schema.json",
+  "title": "AVERT Authorization Decision",
+  "description": "Outcome of the AVERT Authorize step: whether the caller is permitted to act for the named entity, and what is missing if not. Grounded against the Apier reference implementation's acting-capacity logic.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["decision", "entity", "granted_scopes", "missing_scopes", "fix_steps"],
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": ["full", "partial", "none"],
+      "description": "Authorization verdict. `full`: the caller may perform the requested action. `partial`: some but not all required permissions are present. `none`: the caller may not act for this entity."
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["organisation_number"],
+      "properties": {
+        "organisation_number": {
+          "type": "string",
+          "description": "Identifier of the entity the caller wishes to act for. In the Norwegian reference implementation this is a 9-digit Brønnøysund organisation number."
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable entity name, when known."
+        }
+      },
+      "description": "The entity this authorization decision applies to."
+    },
+    "granted_scopes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Permission scopes the caller currently holds for this entity."
+    },
+    "missing_scopes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Permission scopes required for the intended action that the caller does not yet hold. Empty on a `full` decision."
+    },
+    "fix_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "description"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Stable, machine-readable remediation code an agent can branch on."
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable explanation of this remediation step."
+          }
+        }
+      },
+      "description": "Structured, machine-readable remediation steps. Populated when the decision is not `full`; empty otherwise."
+    }
+  }
+}

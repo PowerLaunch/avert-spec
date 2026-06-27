@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.apier.no/avert/0.1.0/validation-outcome.schema.json",
+  "title": "AVERT Validation Outcome",
+  "description": "Outcome of the AVERT Validate step: a deterministic set of pre-flight checks that gate Execute. Kept consistent with the Apier reference implementation's live dry-run outcome — `all_passed` is a boolean and each check's `error_code` is a nullable string (null on a passing check).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["all_passed", "checks"],
+  "properties": {
+    "all_passed": {
+      "type": "boolean",
+      "description": "True if and only if every check in `checks` passed. Execute MUST NOT proceed when this is false."
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "description": "One entry per deterministic pre-flight check.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "error_code", "message"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": ["entity_exists", "delegation_active", "scopes", "payload_shape", "deadline"],
+            "description": "Which pre-flight check this entry reports."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pass", "fail"],
+            "description": "Whether this individual check passed."
+          },
+          "error_code": {
+            "type": ["string", "null"],
+            "enum": ["ENTITY_NOT_FOUND", "DELEGATION_INACTIVE", "SCOPE_MISSING", "VALIDATION_FAILED", "DEADLINE_MISSED", null],
+            "description": "Stable, machine-readable failure code when `status` is `fail`; null when `status` is `pass`. Nullable-string typing mirrors the reference implementation's live validation contract."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable summary of the check result. On validation failures this names field paths only, never field values."
+          }
+        }
+      }
+    }
+  }
+}

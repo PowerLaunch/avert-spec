@@ -1,0 +1,10 @@
+{
+  "all_passed": false,
+  "checks": [
+    { "id": "entity_exists", "status": "pass", "error_code": null, "message": "Entity 999000111 found in the registry." },
+    { "id": "delegation_active", "status": "fail", "error_code": "DELEGATION_INACTIVE", "message": "No active delegation for the requested action; have the entity grant it in Altinn." },
+    { "id": "scopes", "status": "pass", "error_code": null, "message": "Caller holds all required scopes." },
+    { "id": "payload_shape", "status": "pass", "error_code": null, "message": "Payload conforms to the expected shape." },
+    { "id": "deadline", "status": "pass", "error_code": null, "message": "Reporting deadline is in the future." }
+  ]
+}
